@@ -1,0 +1,7 @@
+[JuliaMono]
+git-tree-sha1 = "75ccf55c84a197ab5a793bdf934fc4561f27ec26"
+lazy=true
+
+    [[JuliaMono.download]]
+    sha256 = "f0a503cec84157b9b1abffa613c1328aaee2159d938da0efef56ab877db2676d"
+    url = "https://github.com/cormullion/juliamono/releases/download/v0.043/JuliaMono-ttf.tar.gz"
