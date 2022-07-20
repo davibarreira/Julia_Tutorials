@@ -1,6 +1,10 @@
 [deps]
+CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
+CorpusLoaders = "214a0ac2-f95b-54f7-a80b-442ed9c2c9e8"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Languages = "8ef0a80b-9436-5d2c-a485-80b904378c43"
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 TextAnalysis = "a2db99b7-8b79-58f8-94bf-bbc811eef33d"
 TextModels = "77b9cbda-2a23-51df-82a3-24144d1cd378"
 Transformers = "21ca0261-441d-5938-ace7-c90938fde4d4"
