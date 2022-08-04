@@ -3,6 +3,23 @@
 Docker has a client and a server. The docker server
 is called the Docker Engine. They communicate via a
 REST API.
+## Containers Vs. Images
+
+In Docker, an image is described in a `Dockerfile`. It contains
+information such as the kernel (you can think of this as the OS)
+the installed packages, and so on.
+Hence, an image is like the configuration of the machine
+where you want to deploy your application.
+
+A container is just an instance of an image, i.e. you can
+have many containers running and all of them have the same
+underlying configuration. Hence, when we create a `Dockerfile`
+and we run a build command from Docker, we are creating an image.
+
+After that, once we do the `docker run my-image` command, we
+create a container running with that image.
+
+## Creating your own image and running your first container
 
 The information regarding containers are inside a `Dockerfile`.
 We start specifying the image we'll use. We can use pre-set
@@ -43,10 +60,11 @@ This command will build a docker image with the name `hellodocker`.
 Note that the `.` in the end of the command specifies where the
 Dockerfile is.
 
-Note that this command will note actually run the container,
+Note that this command will not actually run the container,
 but just build it. Run the command `sudo docker images`
 to get a list of available images. The `hellodocker`
 should be there.
 
 If it's there, then just run `sudo docker run hellodocker`, and
 this will run the `hellodocker.jl` script.
+
