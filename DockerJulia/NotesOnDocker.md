@@ -19,6 +19,8 @@ and we run a build command from Docker, we are creating an image.
 After that, once we do the `docker run my-image` command, we
 create a container running with that image.
 
+# FirstDocker
+
 ## Creating your own image and running your first container
 
 The information regarding containers are inside a `Dockerfile`.
@@ -68,3 +70,30 @@ should be there.
 If it's there, then just run `sudo docker run hellodocker`, and
 this will run the `hellodocker.jl` script.
 
+
+## Creating more complicated images
+
+We started with a very simple image. But how do we customize it?
+For example, how can we create an image where our Julia environment
+is already setup and we can perhaps use a System Image?
+
+First, you might not know what a system image is. Since you are using Julia,
+you know that it can take a bit of time to get it to start running, due to
+pre-compilation time. We can speed this up with a system image, which is
+a binary where we already have all our desired dependencies pre-compiled.
+This is great when we want to quickly run some code. The downside is that
+the system image can be quite large, and we need to delete it and create
+a new one if we wish to update the packages in it.
+
+Yet, if we want to run Julia code in, say, an AWS Lambda function, then
+this is a must.
+
+# LambdaDocker
+
+This next example is on how to use Julia with AWS Lambda.
+Run the following from within the directory:
+```
+sudo docker build -t julia-lambda:latest . && sudo docker run -it --rm -p 9000:8080 julia-lambda:latest
+```
+
+Wait for 
