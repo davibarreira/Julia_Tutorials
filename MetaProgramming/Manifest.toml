@@ -131,6 +131,11 @@ version = "0.3.6"
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
+[[deps.MLStyle]]
+git-tree-sha1 = "c4f433356372cc8838da59e3608be4b0c4c2c280"
+uuid = "d8e11817-5142-5d16-987a-aa16d5891078"
+version = "0.4.13"
+
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
 git-tree-sha1 = "3d3e902b31198a27340d0bf00d6ac452866021cf"
