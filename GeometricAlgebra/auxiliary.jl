@@ -149,3 +149,18 @@ function span(a::MultiVector)
     end
     return b
 end
+
+"""
+getblades(x,blades = [:e1,:e2,:e3])
+
+Returns a multivector consisting of the sum of a subset
+of blades of a multivier. E.g. for `x = cl.e1 + cl.e2 + 3cl.e1e2`
+```
+getblades(x,[:e1,:e1e2])
+# returns cl.e1 + 3cl.e1e2
+```
+"""
+function getblades(x,blades = [:e1,:e2,:e3])
+    cl = algebra(x)
+    mapreduce(b->reduce(*,getproperty.([m,cl],b)),+,[:e1,:e2,:e3])
+end
