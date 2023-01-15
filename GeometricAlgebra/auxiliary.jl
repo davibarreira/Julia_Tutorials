@@ -162,5 +162,5 @@ getblades(x,[:e1,:e1e2])
 """
 function getblades(x,blades = [:e1,:e2,:e3])
     cl = algebra(x)
-    mapreduce(b->reduce(*,getproperty.([m,cl],b)),+,[:e1,:e2,:e3])
+    mapreduce(b->reduce(*,getproperty.([x,cl],b)),+,blades)
 end
