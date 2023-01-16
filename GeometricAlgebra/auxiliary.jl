@@ -151,7 +151,7 @@ function span(a::MultiVector)
 end
 
 """
-getblades(x,blades = [:e1,:e2,:e3])
+getblades(x,blades = [:e1,:e2,:e3
 
 Returns a multivector consisting of the sum of a subset
 of blades of a multivier. E.g. for `x = cl.e1 + cl.e2 + 3cl.e1e2`
@@ -163,4 +163,10 @@ getblades(x,[:e1,:e1e2])
 function getblades(x,blades = [:e1,:e2,:e3])
     cl = algebra(x)
     mapreduce(b->reduce(*,getproperty.([x,cl],b)),+,blades)
+end
+
+
+function tovec(x::MultiVector, dims=3)
+    blades = Symbol.(["e"*i for i in 1:dims])
+    getblades(x, blades)
 end
