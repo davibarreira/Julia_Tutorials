@@ -165,6 +165,16 @@ function getblades(x,blades = [:e1,:e2,:e3])
     mapreduce(b->reduce(*,getproperty.([x,cl],b)),+,blades)
 end
 
+function getblades(x,blades = [:e1,:e2,:e3])
+    cl = algebra(x)
+    mapreduce(b->reduce(*,getproperty.([x,cl],b)),+,blades)
+end
+
+
+function Base.round(x::MultiVector;kwargs...)
+    cl = algebra(x)
+    mapreduce(e->round(getproperty(x,e); kwargs...)*getproperty(cl,e),+, propertynames(x))
+end
 
 function tovec(x::MultiVector, dims=3)
     blades = Symbol.(["e"*i for i in 1:dims])
