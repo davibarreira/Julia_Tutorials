@@ -180,3 +180,5 @@ function tovec(x::MultiVector, dims=3)
     blades = Symbol.(["e"*i for i in 1:dims])
     getblades(x, blades)
 end
+
+Base.:^(x::MultiVector,n::Int) = mapreduce(y->x, *, 1:n)
