@@ -1,7 +1,7 @@
 using CliffordAlgebras
 import CliffordAlgebras: basegrade
 using LinearAlgebra: norm, normalize, dot
-using Plots
+# using Plots
 
 coord(a::MultiVector) = a.e1 * cl.e1  + a.e2 * cl.e2 + a.e3* cl.e3
 
