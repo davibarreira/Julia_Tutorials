@@ -13,6 +13,13 @@ edual(A) = A ⨼ inv(cl.e1e2e3);
 # Formula from Dorst
 F(x) = no + x + (x ⋅ x) * n∞ /2
 point(x=0,y=0,z=0)  = no + x*cl.e1 + y*cl.e2 + z*cl.e3 + (x^2 + y^2 + z^2) * n∞/2
+
+"""
+multivector(v::Vector)
+
+Turns vector such as `[1,2,3]` into
+a multivector `1cl.e1 + 2cl.e2 + 3cl.e3`.
+"""
 function multivector(v::Vector)
     
     if length(v) == 1
@@ -23,6 +30,11 @@ function multivector(v::Vector)
     
     return v[1]*cl.e1 + v[2]*cl.e2 + v[3]*cl.e3
 end
+
+# function multivector(cl::CliffordAlgebra,v::Vector)
+#     bases = propertynames(cl)
+#     mapreduce(x->x[1] * getproperty(cl,x[2]),+, zip(v,bases))
+# end
 
 coord(a::MultiVector) = a.e1 * cl.e1  + a.e2 * cl.e2 + a.e3* cl.e3
 
@@ -44,10 +56,6 @@ function Base.:≈(a::MultiVector,b::MultiVector)
     vector(a) ≈ vector(b)
 end
 
-function multivector(cl::CliffordAlgebra,v::Vector)
-    bases = propertynames(cl)
-    mapreduce(x->x[1] * getproperty(cl,x[2]),+, zip(v,bases))
-end
 
 function Base.map(f, c::MultiVector)
     multivector(algebra(c),map(f, vector(c)))
@@ -198,7 +206,7 @@ function Base.round(x::MultiVector;kwargs...)
 end
 
 function tovec(x::MultiVector, dims=3)
-    blades = Symbol.(["e"*i for i in 1:dims])
+    blades = Symbol.(["e"* string(i) for i in 1:dims])
     getblades(x, blades)
 end
 
@@ -213,4 +221,16 @@ end
 function translate(X::MultiVector, a::Vector = [0,0,0])
     a = multivector(a)
     translate(X,a)
+end
+
+
+"""
+Base.vec(x::MultiVector)
+
+Extract the vector coordinates from multivector
+`1cl.e1 + 2cl.e2 + 3cl.e3 + 5cl.e1e2`, and returns
+a vector `[1,2,3]`.
+"""
+function Base.vec(x::MultiVector)
+    [x.e1, x.e2, x.e3]
 end
