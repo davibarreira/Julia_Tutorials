@@ -3,6 +3,27 @@ import CliffordAlgebras: basegrade
 using LinearAlgebra: norm, normalize, dot
 # using Plots
 
+cl = CliffordAlgebra(:CGA3D)
+no  = (cl.e₊ + cl.e₋)/2
+n∞  = cl.e₋ - cl.e₊
+I = no ∧ cl.e1 ∧ cl.e2 ∧ cl.e3 ∧ n∞; # This is the "correct" pseudoscalar for the conformal model
+cdual(X::MultiVector) = X ⨼ inv(I)
+edual(A) = A ⨼ inv(cl.e1e2e3);
+
+# Formula from Dorst
+F(x) = no + x + (x ⋅ x) * n∞ /2
+point(x=0,y=0,z=0)  = no + x*cl.e1 + y*cl.e2 + z*cl.e3 + (x^2 + y^2 + z^2) * n∞/2
+function multivector(v::Vector)
+    
+    if length(v) == 1
+        return v[1]*cl.e1
+    elseif length(v) == 2
+        return v[1]*cl.e1 + v[2]*cl.e2
+    end
+    
+    return v[1]*cl.e1 + v[2]*cl.e2 + v[3]*cl.e3
+end
+
 coord(a::MultiVector) = a.e1 * cl.e1  + a.e2 * cl.e2 + a.e3* cl.e3
 
 function getgradesdict(cl::CliffordAlgebra)
