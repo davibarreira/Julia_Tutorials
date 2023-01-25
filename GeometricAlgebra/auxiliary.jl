@@ -203,3 +203,14 @@ function tovec(x::MultiVector, dims=3)
 end
 
 Base.:^(x::MultiVector,n::Int) = mapreduce(y->x, *, 1:n)
+
+function translate(X::MultiVector, a::MultiVector = point(0,0,0))
+    a = getblades(a)
+    Ta = exp(-a*n∞/2)
+    return Ta * X * reverse(Ta)
+end
+
+function translate(X::MultiVector, a::Vector = [0,0,0])
+    a = multivector(a)
+    translate(X,a)
+end
