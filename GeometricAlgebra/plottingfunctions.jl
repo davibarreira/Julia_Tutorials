@@ -57,6 +57,7 @@ end
 """
 plotline(l::MultiVector,
         linelengthfactor=1;
+        anchor=nothing,
         mode="lines",
         plottype="scatter3d",
         kwargs...)
@@ -64,6 +65,9 @@ plotline(l::MultiVector,
 It takes a line `l` from the Conformal Model.
 One can define a line by `p ∧ q ∧ n∞`, or using the
 helper function `line(p,q)`.
+The `anchor` is a point from where the line is spanned.
+If none is provided, the function uses the support point as anchor,
+i.e. the line is spanned from the closes point to the origin.
 
 Returns a scatter object from `PlotlyJS.jl`.
 """
