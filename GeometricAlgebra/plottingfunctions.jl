@@ -33,6 +33,16 @@ function plotpoint(p::MultiVector; plottype="scatter3d", kwargs...)
     plotpoint([p];plottype=plottype, kwargs...)
 end
 
+
+function extractpairpoints(p_q::MultiVector)
+    T = p_q
+    G = T/√scalar(T^2)
+    Prj = (1+G)/2
+    p = Prj * ((T) ⋅ n∞) * reverse(Prj)
+    q = -reverse(Prj) * ((T) ⋅ n∞) * Prj
+    return p,q
+end
+
 """
 plotpointpair(p_q::MultiVector;
         marker=attr(symbol="circle-open"),
@@ -45,11 +55,7 @@ function plotpointpair(p_q::MultiVector;
         marker=attr(symbol="circle-open"),
         plottype="scatter3d", kwargs...)
     
-    T = p_q
-    G = T/√scalar(T^2)
-    Prj = (1+G)/2
-    p = Prj * ((T) ⋅ n∞) * reverse(Prj)
-    q = -reverse(Prj) * ((T) ⋅ n∞) * Prj
+    p,q = extractpairpoints(p_q)
     plotpoint([p,q]; plottype = plottype, marker = marker, kwargs...)
 end
 
