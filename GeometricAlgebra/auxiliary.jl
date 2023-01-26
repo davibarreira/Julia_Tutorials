@@ -218,6 +218,9 @@ function translate(X::MultiVector, a::MultiVector = point(0,0,0))
     return Ta * X * reverse(Ta)
 end
 
+"""
+translate(X::MultiVector, a::Vector = [0,0,0])
+"""
 function translate(X::MultiVector, a::Vector = [0,0,0])
     a = multivector(a)
     translate(X,a)
