@@ -69,13 +69,19 @@ Returns a scatter object from `PlotlyJS.jl`.
 """
 function plotline(l::MultiVector,
         linelengthfactor=1;
+        anchor=nothing,
         mode="lines",
         plottype="scatter3d",
         kwargs...)
     
     weight = norm(n∞ ⨼ (no ⨼ l))
     v = n∞ ⨼ (no ⨼ l)/weight
-    d = getblades((no ⨼ l) / l)
+
+    if isnothing(anchor)
+        d = getblades((no ⨼ l) / l)
+    else
+        d = getblades((anchor ⨼ l)/l)
+    end
     
     lstart = linelengthfactor*v + d
     lend   = -linelengthfactor*v + d
