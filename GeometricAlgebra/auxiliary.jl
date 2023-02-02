@@ -237,3 +237,12 @@ a vector `[1,2,3]`.
 function Base.vec(x::MultiVector)
     [x.e1, x.e2, x.e3]
 end
+
+
+"""
+rotate(X::MultiVector, E::MultiVector, ϕ::Real)
+"""
+function rotate(X::MultiVector, E::MultiVector, ϕ::Real)
+    R = exp(-E * ϕ)
+    R*X*inv(R)
+end
