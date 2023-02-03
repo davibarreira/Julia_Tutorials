@@ -148,7 +148,7 @@ end
 
 
 """
-plotcircle(C::MultiVector)
+plotcircle(C::MultiVector; mode = "lines", kwargs...)
 
 Takes a direct circle in the Conformal Model.
 Returns a scatter object from `PlotlyJS.jl`.
@@ -164,6 +164,9 @@ function plotcircle(C::MultiVector; mode = "lines", kwargs...)
     A = translate(A, c)
     
     u = n + cl.e1
+    if n == cl.e1
+        u = n + cl.e2
+    end
     t = c ∧ ( c ⨼ ( u ∧ n∞)) # Tangent vector translated to c 
     t = (t ⨼ E) / E
     u = getblades(-(n∞ ⨼ t))
@@ -178,7 +181,7 @@ function plotcircle(C::MultiVector; mode = "lines", kwargs...)
         tr = R*tp*reverse(R)
         push!(ts,tr)
     end
-    plotpoint(ts, mode=mode, kwargs...)
+    plotpoint(ts; mode=mode, kwargs...)
 end
 
 
