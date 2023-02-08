@@ -246,3 +246,18 @@ function rotate(X::MultiVector, E::MultiVector, ϕ::Real)
     R = exp(-E * ϕ)
     R*X*inv(R)
 end
+
+"""
+inversion(Σ, x)
+
+Applies spherical inversion.
+`Σ` is a sphere, and  `x`
+is the element to which the inversion is applied.
+"""
+function inversion(Σ, x)
+    σ  = cdual(Σ)
+    xi = σ * grin(x)*inv(σ)
+    α  = - n∞ ⋅ xi
+    return xi/α
+end
+

@@ -67,3 +67,34 @@ Sphere passing through points `a`, `b`, `c` and `d`.
 function sphere(a::MultiVector,b::MultiVector,c::MultiVector,d::MultiVector)
     a ∧ b ∧ c ∧ d
 end
+
+"""
+getroundcenter(Σ)
+
+Returns the center of a round (e.g. circle or sphere).
+
+```
+-(1/2)*(Σ * n∞ * Σ)/((n∞ ⨼ Σ)^2) # center
+```
+"""
+function getroundcenter(Σ)
+    -(1/2)*(Σ * n∞ * Σ)/((n∞ ⨼ Σ)^2) # center
+end
+
+
+function getradius(Σ)
+    ρsqr = scalar((Σ * grin(Σ))/((n∞ ⨼ Σ)^2));
+    if ρsqr < 0
+        return - √abs(ρsqr)
+    end
+    return √abs(ρsqr)
+end
+
+function getcircledirection(C)
+    E = C ∧ n∞ # Carrier
+    c = -(1/2)*(C * n∞ * C)/((n∞ ⨼ C)^2) # center
+    weight = norm(n∞ ⨼ (no ⨼ E))
+    A = n∞ ⨼ (no ⨼ E)/weight
+    n = edual(A)
+    return n
+end
