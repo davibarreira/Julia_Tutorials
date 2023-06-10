@@ -1,2 +1,6 @@
 [deps]
+Functors = "d9f16b24-f501-4c13-a1f2-28368ffc5196"
 MLStyle = "d8e11817-5142-5d16-987a-aa16d5891078"
+PartialFunctions = "570af359-4316-4cb7-8c74-252c00c2016b"
+SumTypes = "8e1ec7a9-0e02-4297-b0fe-6433085c89f2"
+TypeClasses = "addcc920-e0cf-11e8-30b7-0fb08706b574"
