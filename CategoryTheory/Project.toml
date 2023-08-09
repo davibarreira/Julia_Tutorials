@@ -1,4 +1,5 @@
 [deps]
+FunctionWrappers = "069b7b12-0de2-55c6-9aab-29f3d0a68a2e"
 Functors = "d9f16b24-f501-4c13-a1f2-28368ffc5196"
 MLStyle = "d8e11817-5142-5d16-987a-aa16d5891078"
 PartialFunctions = "570af359-4316-4cb7-8c74-252c00c2016b"
