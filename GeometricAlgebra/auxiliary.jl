@@ -4,15 +4,15 @@ using LinearAlgebra: norm, normalize, dot
 # using Plots
 
 cl = CliffordAlgebra(:CGA3D)
-no  = (cl.e₊ + cl.e₋)/2
-n∞  = cl.e₋ - cl.e₊
+no = (cl.e₊ + cl.e₋) / 2
+n∞ = cl.e₋ - cl.e₊
 I = no ∧ cl.e1 ∧ cl.e2 ∧ cl.e3 ∧ n∞; # This is the "correct" pseudoscalar for the conformal model
 cdual(X::MultiVector) = X ⨼ inv(I)
 edual(A) = A ⨼ inv(cl.e1e2e3);
 
 # Formula from Dorst
-F(x) = no + x + (x ⋅ x) * n∞ /2
-point(x=0,y=0,z=0)  = no + x*cl.e1 + y*cl.e2 + z*cl.e3 + (x^2 + y^2 + z^2) * n∞/2
+F(x) = no + x + (x ⋅ x) * n∞ / 2
+point(x=0, y=0, z=0) = no + x * cl.e1 + y * cl.e2 + z * cl.e3 + (x^2 + y^2 + z^2) * n∞ / 2
 
 """
 multivector(v::Vector)
@@ -21,14 +21,14 @@ Turns vector such as `[1,2,3]` into
 a multivector `1cl.e1 + 2cl.e2 + 3cl.e3`.
 """
 function multivector(v::Vector)
-    
+
     if length(v) == 1
-        return v[1]*cl.e1
+        return v[1] * cl.e1
     elseif length(v) == 2
-        return v[1]*cl.e1 + v[2]*cl.e2
+        return v[1] * cl.e1 + v[2] * cl.e2
     end
-    
-    return v[1]*cl.e1 + v[2]*cl.e2 + v[3]*cl.e3
+
+    return v[1] * cl.e1 + v[2] * cl.e2 + v[3] * cl.e3
 end
 
 # function multivector(cl::CliffordAlgebra,v::Vector)
@@ -36,15 +36,15 @@ end
 #     mapreduce(x->x[1] * getproperty(cl,x[2]),+, zip(v,bases))
 # end
 
-coord(a::MultiVector) = a.e1 * cl.e1  + a.e2 * cl.e2 + a.e3* cl.e3
+coord(a::MultiVector) = a.e1 * cl.e1 + a.e2 * cl.e2 + a.e3 * cl.e3
 
 function getgradesdict(cl::CliffordAlgebra)
-    gradesdict = Dict(g =>[] for g in 0:sum(signature(cl)))
+    gradesdict = Dict(g => [] for g in 0:sum(signature(cl)))
     ngrades = sum(signature(cl))
     for g in 0:ngrades
-        for (i,p) in enumerate(propertynames(cl))
-            if i <= sum(binomial.(dimcl,0:g))
-                push!(gradesdict[g],p)
+        for (i, p) in enumerate(propertynames(cl))
+            if i <= sum(binomial.(dimcl, 0:g))
+                push!(gradesdict[g], p)
             end
         end
     end
@@ -52,13 +52,13 @@ function getgradesdict(cl::CliffordAlgebra)
     return gradesdict
 end
 
-function Base.:≈(a::MultiVector,b::MultiVector)
+function Base.:≈(a::MultiVector, b::MultiVector)
     vector(a) ≈ vector(b)
 end
 
 
 function Base.map(f, c::MultiVector)
-    multivector(algebra(c),map(f, vector(c)))
+    multivector(algebra(c), map(f, vector(c)))
 end
 
 function Base.reduce(op, c::MultiVector)
@@ -72,7 +72,7 @@ Turns a multivector into a vector of multivectors,
 where each element in a multivector with a single blade.
 """
 function vectorize(c::MultiVector)
-    filter(x->!isapprox(norm_sqr(x),0),basevector.(Ref(algebra(c)), propertynames(c)) .* vector(c))
+    filter(x -> !isapprox(norm_sqr(x), 0), basevector.(Ref(algebra(c)), propertynames(c)) .* vector(c))
 end
 
 """
@@ -82,7 +82,7 @@ Turns a vector of multivectors into a multivector by
 summing each component.
 """
 function unvectorize(c::MultiVector)
-    reduce(+,vectorize(B))
+    reduce(+, vectorize(B))
 end
 
 """
@@ -96,9 +96,9 @@ the signature, e.g. ``R^{3,1,1}`` has
 """
 function basesfromgrade(cl::CliffordAlgebra, k::Int)
     ngrades = sum(signature(cl))
-    i = sum(binomial.(ngrades,0:k-1))+1
-    j = sum(binomial.(ngrades,0:k))
-    basesymbol.(Ref(cl),i:j)
+    i = sum(binomial.(ngrades, 0:k-1)) + 1
+    j = sum(binomial.(ngrades, 0:k))
+    basesymbol.(Ref(cl), i:j)
 end
 
 
@@ -120,7 +120,7 @@ is equal to `grade(A,maxgrade(A))`.
 """
 function maxgrade(A::MultiVector)
     D = sum(signature(algebra(A)))
-    i = findlast(!isapprox(0), norm_sqr(grade(A,k)) for k in 0:D)
+    i = findlast(!isapprox(0), norm_sqr(grade(A, k)) for k in 0:D)
     if isnothing(i)
         return 0
     end
@@ -134,7 +134,7 @@ with non-null value, or returns 0.
 """
 function mingrade(A::MultiVector)
     D = sum(signature(algebra(A)))
-    i = findfirst(!isapprox(0), norm_sqr(grade(A,k)) for k in 0:D)
+    i = findfirst(!isapprox(0), norm_sqr(grade(A, k)) for k in 0:D)
     if isnothing(i)
         return 0
     end
@@ -152,12 +152,12 @@ orthogonalreject(a::MultiVector, B::MultiVector) = (a ∧ B) ⨽ inv(B)
 
 function findmaxmv(f, a::MultiVector)
     cl = algebra(a)
-    scalar, base = findmax(f,vector(a))
+    scalar, base = findmax(f, vector(a))
     return scalar * basevector(cl, base)
 end
 
-function deltaproduct(A::MultiVector,B::MultiVector)
-    C = A*B
+function deltaproduct(A::MultiVector, B::MultiVector)
+    C = A * B
     return grade(C, maxgrade(C))
 end
 
@@ -166,12 +166,12 @@ function span(a::MultiVector)
         error("This function takes only multivectors with a single coeffient")
     end
     if mingrade(a) ≤ 1
-        return [a/norm(a)]
+        return [a / norm(a)]
     end
     cl = algebra(a)
-    A  = a / norm(a)
+    A = a / norm(a)
     b = []
-    for e in basevector.(Ref(cl),basesfromgrade(cl,1))
+    for e in basevector.(Ref(cl), basesfromgrade(cl, 1))
         if !(norm_sqr(A ⋅ e) ≈ 0)
             push!(b, e)
         end
@@ -189,41 +189,41 @@ getblades(x,[:e1,:e1e2])
 # returns cl.e1 + 3cl.e1e2
 ```
 """
-function getblades(x,blades = [:e1,:e2,:e3])
+function getblades(x, blades=[:e1, :e2, :e3])
     cl = algebra(x)
-    mapreduce(b->reduce(*,getproperty.([x,cl],b)),+,blades)
+    mapreduce(b -> reduce(*, getproperty.([x, cl], b)), +, blades)
 end
 
-function getblades(x,blades = [:e1,:e2,:e3])
+function getblades(x, blades=[:e1, :e2, :e3])
     cl = algebra(x)
-    mapreduce(b->reduce(*,getproperty.([x,cl],b)),+,blades)
+    mapreduce(b -> reduce(*, getproperty.([x, cl], b)), +, blades)
 end
 
 
-function Base.round(x::MultiVector;kwargs...)
+function Base.round(x::MultiVector; kwargs...)
     cl = algebra(x)
-    mapreduce(e->round(getproperty(x,e); kwargs...)*getproperty(cl,e),+, propertynames(x))
+    mapreduce(e -> round(getproperty(x, e); kwargs...) * getproperty(cl, e), +, propertynames(x))
 end
 
 function tovec(x::MultiVector, dims=3)
-    blades = Symbol.(["e"* string(i) for i in 1:dims])
+    blades = Symbol.(["e" * string(i) for i in 1:dims])
     getblades(x, blades)
 end
 
-Base.:^(x::MultiVector,n::Int) = mapreduce(y->x, *, 1:n)
+Base.:^(x::MultiVector, n::Int) = mapreduce(y -> x, *, 1:n)
 
-function translate(X::MultiVector, a::MultiVector = point(0,0,0))
+function translate(X::MultiVector, a::MultiVector=point(0, 0, 0))
     a = getblades(a)
-    Ta = exp(-a*n∞/2)
+    Ta = exp(-a * n∞ / 2)
     return Ta * X * reverse(Ta)
 end
 
 """
 translate(X::MultiVector, a::Vector = [0,0,0])
 """
-function translate(X::MultiVector, a::Vector = [0,0,0])
+function translate(X::MultiVector, a::Vector=[0, 0, 0])
     a = multivector(a)
-    translate(X,a)
+    translate(X, a)
 end
 
 
@@ -244,7 +244,7 @@ rotate(X::MultiVector, E::MultiVector, ϕ::Real)
 """
 function rotate(X::MultiVector, E::MultiVector, ϕ::Real)
     R = exp(-E * ϕ)
-    R*X*inv(R)
+    R * X * inv(R)
 end
 
 """
@@ -254,10 +254,11 @@ Applies spherical inversion.
 `Σ` is a sphere, and  `x`
 is the element to which the inversion is applied.
 """
-function inversion(Σ, x)
-    σ  = cdual(Σ)
-    xi = σ * grin(x)*inv(σ)
-    α  = - n∞ ⋅ xi
-    return xi/α
+function inversion(Σ, X)
+    σ = cdual(Σ)
+    Xi = σ * grin(X) * inv(σ)
+    α = scalar(-n∞ ⋅ Xi)
+    isapprox(α, 0, atol=1e-8) ? Xi : Xi / α
+    # return xi / α
 end
 
