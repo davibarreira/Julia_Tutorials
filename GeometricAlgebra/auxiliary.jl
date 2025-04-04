@@ -180,7 +180,7 @@ function span(a::MultiVector)
 end
 
 """
-getblades(x,blades = [:e1,:e2,:e3
+getblades(x,blades = [:e1,:e2,:e3])
 
 Returns a multivector consisting of the sum of a subset
 of blades of a multivier. E.g. for `x = cl.e1 + cl.e2 + 3cl.e1e2`
@@ -189,11 +189,6 @@ getblades(x,[:e1,:e1e2])
 # returns cl.e1 + 3cl.e1e2
 ```
 """
-function getblades(x, blades=[:e1, :e2, :e3])
-    cl = algebra(x)
-    mapreduce(b -> reduce(*, getproperty.([x, cl], b)), +, blades)
-end
-
 function getblades(x, blades=[:e1, :e2, :e3])
     cl = algebra(x)
     mapreduce(b -> reduce(*, getproperty.([x, cl], b)), +, blades)
@@ -212,8 +207,11 @@ end
 
 Base.:^(x::MultiVector, n::Int) = mapreduce(y -> x, *, 1:n)
 
-function translate(X::MultiVector, a::MultiVector=point(0, 0, 0))
-    a = getblades(a)
+"""
+translate(X::MultiVector, a::MultiVector=point(0, 0, 0), blades=[:e1, :e2, :e3])
+"""
+function translate(X::MultiVector, a::MultiVector=point(0, 0, 0), blades=[:e1, :e2, :e3])
+    a = getblades(a, blades)
     Ta = exp(-a * n∞ / 2)
     return Ta * X * reverse(Ta)
 end

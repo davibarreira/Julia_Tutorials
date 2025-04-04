@@ -1,2 +1,5 @@
 [deps]
+ACSets = "227ef7b5-1206-438b-ac65-934d6da304b8"
 Catlab = "134e5e36-593f-5add-ad60-77f754baafbe"
+GATlab = "f0ffcf3b-d13a-433e-917c-cc44ccf5ead2"
+MLStyle = "d8e11817-5142-5d16-987a-aa16d5891078"

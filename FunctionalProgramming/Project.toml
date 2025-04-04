@@ -1,3 +1,5 @@
 [deps]
+Accessors = "7d9f7c33-5ae7-4f3b-8dc6-eff91059b697"
 IsDef = "2704c575-34db-4e2b-9135-fc0075949e5a"
 IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
+Transducers = "28d57a85-8fef-5791-bfe6-a80928e7c999"
